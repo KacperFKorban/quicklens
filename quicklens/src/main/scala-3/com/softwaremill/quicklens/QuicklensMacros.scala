@@ -180,6 +180,7 @@ object QuicklensMacros {
     val objTree: Tree = obj.asTerm
     val objTerm: Term = objTree match {
       case Inlined(_, _, term) => term
+      case ident: Ident => ident
     }
 
     val res: (Expr[A => A] => Expr[S]) = (mod: Expr[A => A]) => mapToCopy(Symbol.spliceOwner, mod, objTerm, path).asExpr.asInstanceOf[Expr[S]]
