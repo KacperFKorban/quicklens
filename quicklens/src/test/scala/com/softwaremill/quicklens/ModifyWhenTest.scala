@@ -1,8 +1,5 @@
 package com.softwaremill.quicklens
 
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should.Matchers
-
 object ModifyWhenTestData {
   trait Animal
   case class Dog(age: Int) extends Animal
@@ -19,27 +16,39 @@ object ModifyWhenTestData {
   val olderZoo = Zoo(List(olderDog, olderCat))
 }
 
-class ModifyWhenTest extends AnyFlatSpec with Matchers {
+class ModifyWhenTest extends munit.FunSuite {
   import ModifyWhenTestData._
 
-  it should "modify a field in a subtype" in {
-    dog.modify(_.when[Dog].age).using(_ + 1) shouldEqual olderDog
+  test("modify a field in a subtype") {
+    assertEquals(
+      dog.modify(_.when[Dog].age).using(_ + 1),
+      olderDog
+    )
   }
 
-  it should "ignore subtypes other than the selected one" in {
-    cat.modify(_.when[Dog].age).using(_ + 1) shouldEqual cat
+  test("ignore subtypes other than the selected one") {
+    assertEquals(
+      cat.modify(_.when[Dog].age).using(_ + 1),
+      cat
+    )
   }
 
-  it should "modify a Functor field in a subtype" in {
-    cat.modify(_.when[Cat].ages.at(0)).using(_ + 1) shouldEqual olderCat
+  test("modify a Functor field in a subtype") {
+    assertEquals(
+      cat.modify(_.when[Cat].ages.at(0)).using(_ + 1),
+      olderCat
+    )
   }
 
-  it should "modify a field in a subtype through a Functor" in {
-    zoo
-      .modifyAll(
-        _.animals.each.when[Dog].age,
-        _.animals.each.when[Cat].ages.at(0)
-      )
-      .using(_ + 1) shouldEqual olderZoo
+  test("modify a field in a subtype through a Functor") {
+    assertEquals(
+      zoo
+        .modifyAll(
+          _.animals.each.when[Dog].age,
+          _.animals.each.when[Cat].ages.at(0)
+        )
+        .using(_ + 1),
+      olderZoo
+    )
   }
 }

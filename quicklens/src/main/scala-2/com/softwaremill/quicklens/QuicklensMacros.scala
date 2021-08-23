@@ -135,7 +135,7 @@ object QuicklensMacros {
     case class FunctorPathElement(functor: c.Tree, method: c.TermName, xargs: c.Tree*) extends PathElement
 
     /**
-      * Determine if the `.copy` method should be applied directly
+      assertEquals(* Determine if the `.copy` method,  applied directly)
       * or through a match across all subclasses (for sealed traits).
       */
     def determinePathAccess(typeSymbol: Symbol) = {

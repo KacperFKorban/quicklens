@@ -62,17 +62,18 @@ lazy val quicklens = (projectMatrix in file("quicklens"))
     name := "quicklens",
     libraryDependencies ++= reflectLibrary(scalaVersion.value),
     Test / publishArtifact := false,
+    Test / scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     libraryDependencies ++= compilerLibrary(scalaVersion.value),
     versionSpecificScalaSources,
-    libraryDependencies ++= Seq("flatspec", "shouldmatchers").map(m =>
-      "org.scalatest" %%% s"scalatest-$m" % "3.2.9" % Test
+    libraryDependencies ++= Seq(
+      "org.scalameta" %%% s"munit" % "0.7.28" % Test
     )
   )
   .jvmPlatform(
     scalaVersions = List(scala211, scala212, scala213, scala3)
   )
   .jsPlatform(
-    scalaVersions = List(scala212, scala213) // TODO: add scala3
+    scalaVersions = List(scala212, scala213, scala3) // TODO: add scala3
   )
   .nativePlatform(
     scalaVersions = List(scala211, scala212, scala213),

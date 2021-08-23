@@ -1,8 +1,8 @@
 package com.softwaremill.quicklens.test
 
 import com.softwaremill.quicklens.TestData.duplicate
-import org.scalatest.flatspec.AnyFlatSpec
-import org.scalatest.matchers.should.Matchers
+
+
 
 import com.softwaremill.quicklens._
 
@@ -15,14 +15,14 @@ object EnumTestData {
   val p3dup: P3 = P3.C5("c2c2", 0)
 }
 
-class ModifyEnumTest extends AnyFlatSpec with Matchers {
+class ModifyEnumTest extends munit.FunSuite {
   import EnumTestData._
 
-  it should "modify a field in an enum case" in {
-    modify(p3)(_.a).using(duplicate) should be(p3dup)
+  test("modify a field in an enum case") {
+    assertEquals(modify(p3)(_.a).using(duplicate), (p3dup))
   }
 
-  it should "modify a field in an enum case with extension method" in {
-    p3.modify(_.a).using(duplicate) should be(p3dup)
+  test("modify a field in an enum case with extension method") {
+    assertEquals(p3.modify(_.a).using(duplicate), (p3dup))
   }
 }
